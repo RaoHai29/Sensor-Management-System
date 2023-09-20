@@ -1,0 +1,20 @@
+#fade-button-1{
+    border: 2px solid;
+    font-size: 20px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+#fade-button-1:hover{
+background-color: #1976D2;
+color: white;
+}
+#fade-button-2{
+    border: 2px solid;
+    font-size: 20px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+#fade-button-2:hover{
+background-color: #1976D2;
+color: white;
+}

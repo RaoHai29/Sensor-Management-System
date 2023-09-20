@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d7d1be07.css",
+    "main.js": "/static/js/main.ff205b9f.js",
+    "static/js/787.a2bf511c.chunk.js": "/static/js/787.a2bf511c.chunk.js",
+    "static/media/dial.png": "/static/media/dial.41be7901887a4c0698a3.png",
+    "index.html": "/index.html",
+    "main.d7d1be07.css.map": "/static/css/main.d7d1be07.css.map",
+    "main.ff205b9f.js.map": "/static/js/main.ff205b9f.js.map",
+    "787.a2bf511c.chunk.js.map": "/static/js/787.a2bf511c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d7d1be07.css",
+    "static/js/main.ff205b9f.js"
+  ]
+}
