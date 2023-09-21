@@ -16,3 +16,19 @@
     background-color: green;
     color: white;
 }
+.time-show{
+    margin-left: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    background: white;
+    margin-top: -19.7px;
+    position: relative;
+    overflow-x: hidden !important;
+    z-index: 2px;
+}
+.time-show p{
+    padding: 5px 5px;
+    font-size: 10px;
+}

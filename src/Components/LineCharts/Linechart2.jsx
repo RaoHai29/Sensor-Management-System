@@ -1,42 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CanvasJSReact from '@canvasjs/react-charts';
-import { Stack, Button } from '@mui/material';
-import './linechart.css'
+import { Stack, Button, Typography } from '@mui/material';
+import './linechart.css';
+
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-function LineChart() {
+function LineChart2() {
   const [data, setData] = useState([]);
-  // const [currentTime, setCurrentTime] = useState(new Date());
-  const [show, setShow] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [zValues, setZValues] = useState([]);
   const ds18b20 = 'http://localhost:5000/ds18b20';
+  const [uniqueZValues, setUniqueZValues] = useState(new Set());
 
   const handleStartClick = () => {
     setShow(true);
-
   };
 
   const handleRefreshClick = async () => {
     try {
-        await axios.delete(ds18b20); // Send a DELETE request to the server
+      await axios.delete(ds18b20); // Send a DELETE request to the server
 
-        // Reset the data state to an empty array
-        setData([]);
+      // Reset the data state to an empty array
+      setData([]);
+      setZValues([]);
+      setUniqueZValues([]);
+      // Reset the currentTime state (optional)
+      setCurrentTime(new Date());
 
-        // Reset the currentTime state (optional)
-        setCurrentTime(new Date());
-
-        // Other logic...
+      // Other logic...
     } catch (error) {
-        console.error('Error deleting data:', error);
+      console.error('Error deleting data:', error);
     }
-};
-
+  };
 
   const handlePauseClick = () => {
     setShow(false);
-   
   };
 
   useEffect(() => {
@@ -46,13 +46,30 @@ function LineChart() {
       try {
         const response = await axios.get(ds18b20);
         const data = response.data;
-        console.log(data)
-        const formattedData = data.map((value) => ({
-          x: value.id,
-          y: value.temperature,
+
+        // Extract id and currentTime arrays
+        const ids = data.map((value) => value.id);
+        const timestamps = data.map((value) => value.currentTime);
+
+        // Find the minimum length of both arrays
+        const minLength = Math.min(ids.length, timestamps.length);
+
+        // Slice both arrays to the minimum length
+        const truncatedIds = ids.slice(0, minLength);
+        const truncatedTimestamps = timestamps.slice(0, minLength);
+
+        const formattedData = truncatedIds.map((id, index) => ({
+          x: id,
+          y: data[index].temperature,
+          z: truncatedTimestamps[index],
         }));
+
         setData(formattedData);
         setCurrentTime(new Date());
+
+        // Extract and update the 'z' values as a Set
+        const newZValues = new Set(formattedData.map((item) => item.z));
+        setUniqueZValues((prevZValues) => new Set([...prevZValues, ...newZValues]));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -70,7 +87,6 @@ function LineChart() {
     };
   }, [show]);
 
-
   const options = {
     theme: 'light2',
     animationEnabled: true,
@@ -79,10 +95,10 @@ function LineChart() {
     },
     axisX: {
       valueFormatString: '', 
-      title: 'id'// Adjust the date format here as needed
+      title: '' // Adjust the date format here as needed
     },
     axisY: {
-      title: 'Temperature (degrees Centigrade)'// Adjust the date format here as needed,
+      title: 'Temperature (degrees Centigrade)' // Adjust the date format here as needed,
     },
     data: [
       {
@@ -96,12 +112,18 @@ function LineChart() {
 
   return (
     <>
-      {/* <div>
-        <p style={{ textAlign: 'center' }}>Current Time: {currentTime.toLocaleTimeString()}</p>
-      </div> */}
+      <div>
+        {/* <p style={{ textAlign: 'center' }}>Current Time: {currentTime.toLocaleTimeString()}</p> */}
+      </div>
       <div>
         <CanvasJSChart options={options} />
-        <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '100px' }}>
+        <div className='time-show'>
+        {[...uniqueZValues].map((z, index) => (
+          <p key={index}>{z}</p>
+         ))}
+</div>
+<Typography variant="h6" sx={{ color: '#828282', textAlign: 'center', fontWeight: '700' }} >Timestamp</Typography>
+
         <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '100px' }}>
           <Button variant='contained' onClick={handleStartClick} id='bt1' className={show ? 'btn-green' : ''}>
             Start
@@ -113,10 +135,9 @@ function LineChart() {
             Pause
           </Button>
         </Stack>
-        </Stack> 
       </div>
     </>
   );
 }
 
-export default LineChart;
+export default LineChart2;

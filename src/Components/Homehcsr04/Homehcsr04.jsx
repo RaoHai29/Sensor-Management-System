@@ -16,8 +16,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import '../Homehcsr04/Home.css'
-import LineChart4 from '../LineCharts/Linechart4';
-import Dial4 from '../Dials/Dial4';
+import LineChart3 from '../LineCharts/Linechart3';
+import Dial3 from '../Dials/Dial3';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -197,7 +197,7 @@ function Homehcsr04(props) {
         <Toolbar />
         <Stack direction="column" sx={{ justifyContent: 'center' }} />
         <div style={{ width: '95%', justifyContent: 'center', marginLeft: '10px' }}>
-          {selectedChart === 'line' ? <LineChart4 /> : selectedChart === 'dial' ? <Dial4 /> : null}
+          {selectedChart === 'line' ? <LineChart3 /> : selectedChart === 'dial' ? <Dial3 /> : null}
         </div>
       </Box>
     </Box>

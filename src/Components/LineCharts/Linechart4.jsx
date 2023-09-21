@@ -1,39 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CanvasJSReact from '@canvasjs/react-charts';
-import { Stack, Button } from '@mui/material';
-import './linechart.css'
+import { Stack, Button, Typography } from '@mui/material';
+import './linechart.css';
+
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-function LineChart() {
+function LineChart3() {
   const [data, setData] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [show, setShow] = useState(false);
+  const fsr = 'http://localhost:5000/fsr';
+  const [uniqueZValues, setUniqueZValues] = useState(new Set());
 
   const handleStartClick = () => {
     setShow(true);
-
   };
 
   const handleRefreshClick = async () => {
     try {
-        await axios.delete('http://localhost:5000/fsr'); // Send a DELETE request to the server
+      await axios.delete(fsr); // Send a DELETE request to the server
 
-        // Reset the data state to an empty array
-        setData([]);
+      // Reset the data state to an empty array
+      setData([]);
+      setUniqueZValues([]);
+      // Reset the currentTime state (optional)
+      setCurrentTime(new Date());
 
-        // Reset the currentTime state (optional)
-        setCurrentTime(new Date());
-
-        // Other logic...
+      // Other logic...
     } catch (error) {
-        console.error('Error deleting data:', error);
+      console.error('Error deleting data:', error);
     }
-};
+  };
 
   const handlePauseClick = () => {
     setShow(false);
-
   };
 
   useEffect(() => {
@@ -41,14 +42,32 @@ function LineChart() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/fsr');
+        const response = await axios.get(fsr);
         const data = response.data;
-        const formattedData = data.map((value) => ({
-          x: value.timestamp,
-          y: value.force,
+
+        // Extract id and currentTime arrays
+        const ids = data.map((value) => value.id);
+        const timestamps = data.map((value) => value.currentTime);
+
+        // Find the minimum length of both arrays
+        const minLength = Math.min(ids.length, timestamps.length);
+
+        // Slice both arrays to the minimum length
+        const truncatedIds = ids.slice(0, minLength);
+        const truncatedTimestamps = timestamps.slice(0, minLength);
+
+        const formattedData = truncatedIds.map((id, index) => ({
+          x: id,
+          y: data[index].force,
+          z: truncatedTimestamps[index],
         }));
+
         setData(formattedData);
         setCurrentTime(new Date());
+
+        // Extract and update the 'z' values as a Set
+        const newZValues = new Set(formattedData.map((item) => item.z));
+        setUniqueZValues((prevZValues) => new Set([...prevZValues, ...newZValues]));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -56,7 +75,7 @@ function LineChart() {
 
     if (show) {
       fetchData(); // Fetch data initially
-      intervalId = setInterval(fetchData, 20); // Fetch data every 5 seconds
+      intervalId = setInterval(fetchData, 1000); // Fetch data every 5 seconds
     } else {
       clearInterval(intervalId); // Clear the interval if fetching is paused
     }
@@ -66,7 +85,6 @@ function LineChart() {
     };
   }, [show]);
 
-
   const options = {
     theme: 'light2',
     animationEnabled: true,
@@ -74,8 +92,8 @@ function LineChart() {
       text: 'FSR - Timestamp to Force',
     },
     axisX: {
-      title: 'Timestamp', // Set an appropriate x-axis title
-      // valueFormatString: '#,##0.00', // Format for humidity values
+      valueFormatString: '#',
+      title: '', // Adjust the date format here as needed
     },
     axisY: {
       title: 'Force',
@@ -83,7 +101,7 @@ function LineChart() {
     data: [
       {
         type: 'spline',
-        xValueFormatString: '#', // Format for humidity values
+        xValueFormatString: '#', // Match the format to axisX's valueFormatString
         yValueFormatString: '#,##0.00',
         dataPoints: data,
       },
@@ -97,7 +115,13 @@ function LineChart() {
       </div>
       <div>
         <CanvasJSChart options={options} />
-        <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '100px' }}>
+        <div className='time-show'>
+          {[...uniqueZValues].map((z, index) => (
+            <p key={index}>{z}</p>
+          ))}
+        </div>
+        <Typography variant="h6" sx={{ color: '#828282', textAlign: 'center', fontWeight: '700' }} >Timestamp</Typography>
+        <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '50px' }}>
           <Button variant='contained' onClick={handleStartClick} id='bt1' className={show ? 'btn-green' : ''}>
             Start
           </Button>
@@ -113,4 +137,4 @@ function LineChart() {
   );
 }
 
-export default LineChart;
+export default LineChart3;
