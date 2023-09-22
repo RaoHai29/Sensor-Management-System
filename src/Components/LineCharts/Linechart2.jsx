@@ -92,9 +92,10 @@ function LineChart2() {
     animationEnabled: true,
     title: {
       text: 'DS18B20 - Timestamp to Temperature',
+      margin: 30,
     },
     axisX: {
-      valueFormatString: '', 
+      valueFormatString: '',
       title: '' // Adjust the date format here as needed
     },
     axisY: {
@@ -105,7 +106,7 @@ function LineChart2() {
         type: 'spline',
         xValueFormatString: '', // Match the format to axisX's valueFormatString
         yValueFormatString: '##.##',
-        dataPoints: data,
+        dataPoints: data.slice(-12),
       },
     ],
   };
@@ -118,11 +119,11 @@ function LineChart2() {
       <div>
         <CanvasJSChart options={options} />
         <div className='time-show'>
-        {[...uniqueZValues].map((z, index) => (
-          <p key={index}>{z}</p>
-         ))}
-</div>
-<Typography variant="h6" sx={{ color: '#828282', textAlign: 'center', fontWeight: '700' }} >Timestamp</Typography>
+          {[...uniqueZValues].map((z, index) => (
+            <p key={index}>{z}</p>
+          )).slice(-12)}
+        </div>
+        <Typography variant="h6" sx={{ color: '#828282', textAlign: 'center', fontWeight: '700' }} >Timestamp</Typography>
 
         <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '100px' }}>
           <Button variant='contained' onClick={handleStartClick} id='bt1' className={show ? 'btn-green' : ''}>

@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-
+import Speedometer from '../Dials/speedometer2';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -103,7 +103,7 @@ function Homeds18b40(props) {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick1}  variant='outlined'
             >
-              Sensor Type
+              Chart Type
             </Button>
             <Menu
               id="fade-menu-1"
@@ -195,7 +195,7 @@ function Homeds18b40(props) {
         <Toolbar />
         <Stack direction="column" sx={{justifyContent:'center'}}/>
           <div style={{width:'95%',justifyContent:'center',marginLeft:'10px'}}>
-          {selectedChart === 'line' ? <LineChart2 /> : selectedChart === 'dial' ? <Dial2 /> : null}
+          {selectedChart === 'line' ? <LineChart2 /> : selectedChart === 'dial' ? <Speedometer /> : null}
           </div>
       </Box>
     </Box>

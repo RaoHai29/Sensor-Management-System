@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-
+import Speedometer from '../Dials/speedometer4';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -27,6 +27,7 @@ function Homefsr(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [dialShow, setDialShow] = React.useState(false);
+  const [selectedChart, setSelectedChart] = React.useState(null);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -51,12 +52,17 @@ function Homefsr(props) {
     setAnchorE2(null);
   };
 
+  const handleChartButtonClick = (chartType) => {
+    setSelectedChart(chartType);
+    handleClose();
+  };
+
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        <Typography variant="h6" component='h6' sx={{ textAlign: 'center', fontWeight: '600', marginBottom: '30px' }}>KY040</Typography>
+        <Typography variant="h6" component='h6' sx={{ textAlign: 'center', fontWeight: '600', marginBottom: '30px' }}>FSRs</Typography>
         <ListItem disablePadding>
           <ListItemButton style={{ paddingLeft: '20px' }}>
             <Button
@@ -88,7 +94,7 @@ function Homefsr(props) {
                 <Link to='/hcsr04'>Sensor3-hcsr04</Link>
               </MenuItem>
               <MenuItem>
-               <Link to='/fsr'>Sensor4-fsr</Link>
+                <Link to='/fsr'>Sensor4-fsr</Link>
               </MenuItem>
             </Menu>
           </ListItemButton>
@@ -102,7 +108,7 @@ function Homefsr(props) {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick1} variant='outlined'
             >
-              Sensor Type
+              Chart Type
             </Button>
             <Menu
               id="fade-menu-1"
@@ -114,10 +120,10 @@ function Homefsr(props) {
               onClose={handleClose}
               TransitionComponent={Fade}
             >
-              <MenuItem sx={{ fontSize: '20px' }} onClick={() => setShow(!show)}>
+              <MenuItem sx={{ fontSize: '20px' }} onClick={() => handleChartButtonClick('line')}>
                 Chart Line
               </MenuItem>
-              <MenuItem sx={{ fontSize: '20px' }} onClick={() => setShow(!show)}>
+              <MenuItem sx={{ fontSize: '20px' }} onClick={() => handleChartButtonClick('dial')}>
                 Dial
               </MenuItem>
             </Menu>
@@ -194,7 +200,7 @@ function Homefsr(props) {
         <Toolbar />
         <Stack direction="column" sx={{ justifyContent: 'center' }} />
         <div style={{ width: '80%', justifyContent: 'center', marginLeft: '9vw' }}>
-          {!show ? <LineChart4 /> : <Dial4 /> }
+          {selectedChart === 'line' ? <LineChart4 /> : selectedChart === 'dial' ? <Speedometer /> : null}
         </div>
         {/* <div>
           {dialShow ? <Dial1 /> : <LineChart1 /> }

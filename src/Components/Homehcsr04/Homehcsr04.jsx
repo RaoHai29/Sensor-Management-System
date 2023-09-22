@@ -17,7 +17,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import '../Homehcsr04/Home.css'
 import LineChart3 from '../LineCharts/Linechart3';
-import Dial3 from '../Dials/Dial3';
+import Speedometer from '../Dials/speedometer3';
+import Dial4 from '../Dials/Dial4';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -105,7 +106,7 @@ function Homehcsr04(props) {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick1} variant='outlined'
             >
-              Sensor Type
+              Chart Type
             </Button>
             <Menu
               id="fade-menu-1"
@@ -197,7 +198,7 @@ function Homehcsr04(props) {
         <Toolbar />
         <Stack direction="column" sx={{ justifyContent: 'center' }} />
         <div style={{ width: '95%', justifyContent: 'center', marginLeft: '10px' }}>
-          {selectedChart === 'line' ? <LineChart3 /> : selectedChart === 'dial' ? <Dial3 /> : null}
+          {selectedChart === 'line' ? <LineChart3 /> : selectedChart === 'dial' ? <Speedometer /> : null}
         </div>
       </Box>
     </Box>

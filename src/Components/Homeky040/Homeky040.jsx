@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-
+import Speeedometer from '../Dials/speedometer1';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -20,6 +20,7 @@ import '../Homehcsr04/Home.css'
 import LineChart1 from '../LineCharts/Linechart1';
 import Dial1 from '../Dials/Dial1';
 import { Link } from 'react-router-dom';
+import Speedometer from '../Dials/speedometer1';
 const drawerWidth = 240;
 
 function Homeky040(props) {
@@ -106,7 +107,7 @@ function Homeky040(props) {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick1} variant='outlined'
             >
-              Sensor Type
+              Chart Type
             </Button>
             <Menu
               id="fade-menu-1"
@@ -198,7 +199,7 @@ function Homeky040(props) {
         <Toolbar />
         <Stack direction="column" sx={{ justifyContent: 'center' }} />
         <div style={{ width: '95%', justifyContent: 'center', marginLeft: '10px' }}>
-          {selectedChart === 'line' ? <LineChart1 /> : selectedChart === 'dial' ? <Dial1 /> : null}
+          {selectedChart === 'line' ? <LineChart1 /> : selectedChart === 'dial' ? <Speedometer /> : null}
         </div>
       </Box>
     </Box>

@@ -95,6 +95,7 @@ function LineChart1() {
     animationEnabled: true,
     title: {
       text: 'KY040 - Timestamp to Angular Speed',
+      margin: 30,
     },
     axisX: {
       valueFormatString: '#',
@@ -108,7 +109,7 @@ function LineChart1() {
         type: 'spline',
         xValueFormatString: '#', // Match the format to axisX's valueFormatString
         yValueFormatString: '#,##0.00',
-        dataPoints: data,
+        dataPoints: data.slice(-12),
       },
     ],
   };
@@ -123,7 +124,7 @@ function LineChart1() {
         <div className='time-show'>
           {[...uniqueZValues].map((z, index) => (
             <p key={index}>{z}</p>
-          ))}
+          )).slice(-12)}
         </div>
         <Typography variant="h6" sx={{ color: '#828282', textAlign: 'center', fontWeight: '700' }} >Timestamp</Typography>
         <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '50px' }}>

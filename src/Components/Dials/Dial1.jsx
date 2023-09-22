@@ -23,7 +23,7 @@ const arrowCircleStyle = {
 
 const arrowStyle = {
   position: 'absolute',
-  top: '66%',
+  top: '70%',
   left: 'calc(47% + 18px)',
   width: '100px',
   height: '4px',
