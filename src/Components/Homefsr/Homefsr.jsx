@@ -62,7 +62,7 @@ function Homefsr(props) {
       <Toolbar />
       <Divider />
       <List>
-        <Typography variant="h6" component='h6' sx={{ textAlign: 'center', fontWeight: '600', marginBottom: '30px' }}>FSRs</Typography>
+        <Typography variant="h6" component='h6' sx={{ textAlign: 'center', fontWeight: '600', marginBottom: '30px' }}>FSR</Typography>
         <ListItem disablePadding>
           <ListItemButton style={{ paddingLeft: '20px' }}>
             <Button
@@ -199,7 +199,7 @@ function Homefsr(props) {
       >
         <Toolbar />
         <Stack direction="column" sx={{ justifyContent: 'center' }} />
-        <div style={{ width: '80%', justifyContent: 'center', marginLeft: '9vw' }}>
+        <div style={{width:'95%',justifyContent:'center',marginLeft:'10px'}}>
           {selectedChart === 'line' ? <LineChart4 /> : selectedChart === 'dial' ? <Speedometer /> : null}
         </div>
         {/* <div>
