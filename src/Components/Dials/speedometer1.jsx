@@ -2,31 +2,31 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Stack, Button, Typography } from '@mui/material';
 import './speedometer.css'; // Import your CSS file
 import axios from 'axios';
+import { MinorCrashOutlined } from '@mui/icons-material';
 
 function Speedometer() {
+
     const arrowStyle = {
         transform: 'rotate(90deg)',
-        width: '81px',
+        width: '110px',
         height: '4px',
-        backgroundColor: 'rgb(70, 52, 233)',
+        backgroundColor: 'rgb(235, 42, 8)',
         position: 'absolute',
         transformOrigin: '100% 50%',
-        top: '77px',
-        left: '0px',
+        top: '122px',
+        left: '19px',
     };
+
     const [show, setShow] = useState(false);
     const [value, setValue] = useState(0);
     const [speed, setSpeed] = useState([]);
-    const [max, setMax] = useState(0);
-    const [min, setMin] = useState(0);
-    const [p1, setP1] = useState(0);
-    const [span1, setSpan1] = useState(0);
-    const [span8, setSpan8] = useState(0);
-    const [p8, setP8] = useState(0);
-    const [cond, setCond] = useState();
+    const [max, setMax] = useState(360);
+    const [min, setMin] = useState(-360);
+    const [gap, setGap] = useState(max / 16);
     const [data, setData] = useState([]);
-    const Rotate = useRef(0);
-    let num = 0;
+    const maxRef = useRef();
+    const minRef = useRef();
+
 
     const handleStartClick = () => {
         setShow(true);
@@ -35,12 +35,9 @@ function Speedometer() {
     const handleRefreshClick = async () => {
         try {
             await axios.delete(ky040); // Send a DELETE request to the server
-
             // Reset the data state to an empty array
             setData([]);
-            setValue(0)
-
-            // Other logic...
+            setValue(0);
         } catch (error) {
             console.error('Error deleting data:', error);
         }
@@ -76,31 +73,59 @@ function Speedometer() {
         return () => clearInterval(intervalId);
     }, [show]);
 
-    useEffect(() => {
-        if (min >= 0 && max > 0) {
-            setCond(true);
-            num = max - min;
-            num /= 16;
-            setP1(min);
-            setSpan8(max);
-            setSpan1(num * 8 + min);
-            setP8(num * 7 + min);
-        } else if (min < 0 && max >= 0) {
-            setCond(false);
-            num = max;
-            num /= 7;
-            setP1(0);
-            setSpan1("-");
-            setP8(max);
-            setSpan8(num * -1 + min);
-        } else if (min >= max || max < 0) {
-            console.error("Invalid entries");
+    const handleChange = () => {
+        console.log("maxRef.current:", maxRef.current.value);
+        console.log("minRef.current:", minRef.current.value);
+        if (maxRef.current.value > minRef.current.value) {
+            setMax(maxRef.current.value);
+            setMin(minRef.current.value);
+            setGap(maxRef.current.value / 16);
         }
-    }, [min, max]);
-    const arrowRotation = `rotate(${value + 90}deg)`;
+    }
+
+    const arrowRotation = `rotate(${((value) * 360/max) + 90}deg)`;
+    // const arrowRotation = `rotate(${((120) * 360/max) + 90}deg)`;
 
     return (
         <>
+            <div>
+                <h4>Showing angle values of KY040 Sensor</h4>
+                <p style={{ margin: "-1px 0" }}>Max value: {max}&deg;</p>
+                <p style={{ margin: "0px 0px 9px" }}>Min value: {min}&deg;</p>
+            </div>
+
+            {/* <!-- Button trigger modal --> */}
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Change Max/Min values
+            </button>
+
+            <div className='d-block mt-3'>
+                <p>Note: The negative values are shown in anti-clockwise rotation of needle</p>
+            </div>
+
+            {/* <!-- Modal --> */}
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content" style={{ margin: "100px", caretColor: "transparent" }}>
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Change Values</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="input-field">
+                                <input type="number" className='max m-2 d-block' placeholder='Enter Max value' ref={maxRef} style={{ caretColor: "gray" }} />
+                                <input type="number" className='min m-2' placeholder='Enter Min value' ref={minRef} style={{ caretColor: "gray" }} />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleChange}>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div className="speedometer">
                 <div className="center-point">
                     <span className="value">{value}</span>
@@ -112,75 +137,58 @@ function Speedometer() {
                         <div className="arrow" style={{ ...arrowStyle, transform: arrowRotation }}></div>
                     </div>
                 </div>
-                {/* ... */}
-                {/* <div key={'scale-1'} className={'speedometer-scale speedometer-scale-1'}>
-                    <div className="text">
-                        <p className="mark">{Math.floor(p1)}</p>
-                        <span className="mark-end">{Math.floor(span1)}</span>
-                    </div>
-                </div> */}
                 <div key={'scale-1'} className={'speedometer-scale speedometer-scale-1'}>
                     <div className="text">
-                        <p className="mark"></p>
-                        <span className="mark-end"></span>
+                        <p className="mark" style={{ padding: "0px 7px", top: "18px" }}>0</p>
+                        <span className="mark-end" style={{ top: "335px" }}>{Math.floor((gap * 8))}</span>
                     </div>
                 </div>
-                {/* Dialing pointers */}
-                {/* {[2, 3, 4, 5, 6, 7].map((scale) => (
-                    <div key={`scale-${scale}`} className={`speedometer-scale speedometer-scale-${scale}`}>
-                        <div className="text">
-                            <p className="mark">{cond ? (min + (scale - 1) * num) : (scale * num)}</p>
-                            <span className="mark-end">{cond ? (num * (scale - 1) + span1) : (scale * -1 * num)}</span>
-                        </div>
-                    </div>
-                ))} */}
-                {[2, 3, 4, 5, 6, 7].map((scale) => {
-                    let scaleValue;
-                    let scaleMarkEnd;
-
-                    if (cond) {
-                        scaleValue = min + (scale - 1) * num;
-                        scaleMarkEnd = num * (scale - 1) + span1;
-                    } else {
-                        scaleValue = scale * num;
-                        scaleMarkEnd = scale * -1 * num;
-                    }
-
-                    return (
-                        // <div key={`scale-${scale}`} className={`speedometer-scale speedometer-scale-${scale}`}>
-                        //     <div className="text">
-                        //         <p className="mark">{Math.floor(scaleValue)}</p>
-                        //         <span className="mark-end">{Math.floor(scaleMarkEnd)}</span>
-                        //     </div>
-                        // </div>
-                        <div key={`scale-${scale}`} className={`speedometer-scale speedometer-scale-${scale}`}>
-                            <div className="text">
-                                <p className="mark"></p>
-                                <span className="mark-end"></span>
-                            </div>
-                        </div>
-                    );
-                })}
-
-                {/* <div key={'scale-8'} className={'speedometer-scale speedometer-scale-8'}>
+                <div className="speedometer-scale speedometer-scale-2">
                     <div className="text">
-                        <p className="mark">{Math.floor(p8)}</p>
-                        <span className="mark-end">{Math.floor(span8)}</span>
+                        <p className="mark">{Math.floor(gap)}</p>
+                        <span className="mark-end">{Math.floor((gap * 9))}</span>
                     </div>
-                </div> */}
-                <div key={'scale-8'} className={'speedometer-scale speedometer-scale-8'}>
+                </div>
+                <div className="speedometer-scale speedometer-scale-3">
                     <div className="text">
-                        <p className="mark"></p>
-                        <span className="mark-end"></span>
+                        <p className="mark">{Math.floor((gap * 2))}</p>
+                        <span className="mark-end">{Math.floor((gap * 10))}</span>
+                    </div>
+                </div>
+                <div className="speedometer-scale speedometer-scale-4">
+                    <div className="text">
+                        <p className="mark">{Math.floor((gap * 3))}</p>
+                        <span className="mark-end">{Math.floor((gap * 11))}</span>
+                    </div>
+                </div>
+                <div className="speedometer-scale speedometer-scale-5">
+                    <div className="text">
+                        <p className="mark">{Math.floor((gap * 4))}</p>
+                        <span className="mark-end">{Math.floor((gap * 12))}</span>
+                    </div>
+                </div>
+                <div className="speedometer-scale speedometer-scale-6">
+                    <div className="text">
+                        <p className="mark">{Math.floor((gap * 5))}</p>
+                        <span className="mark-end">{Math.floor((gap * 13))}</span>
+                    </div>
+                </div>
+                <div className="speedometer-scale speedometer-scale-7">
+                    <div className="text">
+                        <p className="mark">{Math.floor((gap * 6))}</p>
+                        <span className="mark-end">{Math.floor((gap * 14))}</span>
+                    </div>
+                </div>
+                <div className="speedometer-scale speedometer-scale-8">
+                    <div className="text">
+                        <p className="mark" style={{ top: "14px", marginTop: "1px" }}>{Math.floor((gap * 7))}</p>
+                        <span className="mark-end">{Math.floor((gap * 15))}</span>
                     </div>
                 </div>
             </div>
-            {/* <div className="input-field">
-                <input type="number" value={max} className='max' placeholder='Enter Max value' onChange={(e) => setMax(e.target.value)} />
-                <input type="number" value={min} className='min' placeholder='Enter Min value' onChange={(e) => setMin(e.target.value)} />
-            </div> */}
 
-            <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '100px' }}>
+
+            <Stack direction='row' spacing={10} justifyContent="center" sx={{ marginTop: '70px' }}>
                 <Button variant='contained' onClick={handleStartClick} id='bt1' className={show ? 'btn-green' : ''}>
                     Start
                 </Button>
