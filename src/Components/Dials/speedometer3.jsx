@@ -128,7 +128,7 @@ function Speedometer() {
 
             <div className="speedometer">
                 <div className="center-point">
-                    <span className="value">{value}</span>
+                    <span className="value">{Math.floor(value)}</span>
                     <span className="unit" style={{fontSize: "15px"}}>cm</span>
                 </div>
                 <div className="speedometer-center-hide"></div>
