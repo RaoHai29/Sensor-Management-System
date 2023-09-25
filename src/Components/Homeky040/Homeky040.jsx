@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import Speeedometer from '../Dials/speedometer1';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -18,7 +17,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import '../Homehcsr04/Home.css'
 import LineChart1 from '../LineCharts/Linechart1';
-import Dial1 from '../Dials/Dial1';
 import { Link } from 'react-router-dom';
 import Speedometer from '../Dials/speedometer1';
 const drawerWidth = 240;
@@ -84,16 +82,16 @@ function Homeky040(props) {
               TransitionComponent={Fade}
             >
               <MenuItem>
-                <Link to='/'>Sensor1-ky040</Link>
+                <Link to='/' style={{textDecoration: "none", color: "black"}}>Sensor1-ky040</Link>
               </MenuItem>
               <MenuItem>
-                <Link to='/ds18b20'>Sensor2-ds18b40</Link>
+                <Link to='/ds18b20' style={{textDecoration: "none", color: "black"}}>Sensor2-ds18b40</Link>
               </MenuItem>
               <MenuItem>
-                <Link to='/hcsr04'>Sensor3-hcsr04</Link>
+                <Link to='/hcsr04' style={{textDecoration: "none", color: "black"}}>Sensor3-hcsr04</Link>
               </MenuItem>
               <MenuItem>
-                <Link to='/fsr'>Sensor4-fsr</Link>
+                <Link to='/fsr' style={{textDecoration: "none", color: "black"}}>Sensor4-fsr</Link>
               </MenuItem>
             </Menu>
           </ListItemButton>

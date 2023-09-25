@@ -18,7 +18,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import '../Homehcsr04/Home.css'
 import LineChart2 from '../LineCharts/Linechart2';
-import Dial2 from '../Dials/Dial2.jsx';
 import { Link } from 'react-router-dom';
 const drawerWidth = 240;
 
@@ -82,15 +81,17 @@ function Homeds18b40(props) {
               TransitionComponent={Fade}
             >
               <MenuItem>
-              <Link to='/'>Sensor1-ky040</Link>
+                <Link to='/' style={{textDecoration: "none", color: "black"}}>Sensor1-ky040</Link>
               </MenuItem>
               <MenuItem>
-              <Link to='/ds18b20'>Sensor2-ds18b40</Link>
+                <Link to='/ds18b20' style={{textDecoration: "none", color: "black"}}>Sensor2-ds18b40</Link>
               </MenuItem>
               <MenuItem>
-              <Link to='/hcsr04'>Sensor3-hcsr04</Link>
+                <Link to='/hcsr04' style={{textDecoration: "none", color: "black"}}>Sensor3-hcsr04</Link>
               </MenuItem>
-              <MenuItem><Link to='/fsr'>Sensor4-fsr</Link></MenuItem>
+              <MenuItem>
+                <Link to='/fsr' style={{textDecoration: "none", color: "black"}}>Sensor4-fsr</Link>
+              </MenuItem>
             </Menu>
           </ListItemButton>
         </ListItem>
