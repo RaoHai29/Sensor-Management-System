@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Homehcsr04 from './Components/Homehcsr04/Homehcsr04';
 import Homeky040 from './Components/Homeky040/Homeky040'
