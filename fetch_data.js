@@ -57,7 +57,7 @@ routes.forEach((route, index) => {
             } else {
                 const data = results;
                 // console.log('Query results:', data);
-                console.log("Succesfully fecthed")
+                // console.log("Succesfully fetched");
                 res.json(data);
             }
         });

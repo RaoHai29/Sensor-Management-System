@@ -77,7 +77,7 @@ function LineChart2() {
 
     if (show) {
       fetchData(); // Fetch data initially
-      intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+      intervalId = setInterval(fetchData, 10); // Fetch data every 5 seconds
     } else {
       clearInterval(intervalId); // Clear the interval if fetching is paused
     }

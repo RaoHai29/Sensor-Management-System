@@ -66,7 +66,7 @@ function Speedometer() {
         let intervalId;
         if (show) {
             fetchData(); // Fetch data initially
-            intervalId = setInterval(fetchData, 1500); // Fetch data every 5 seconds
+            intervalId = setInterval(fetchData, 15); // Fetch data every 5 seconds
         } else {
             clearInterval(intervalId); // Clear the interval if fetching is paused
         }// Adjust the interval as needed (5000 milliseconds = 5 seconds)

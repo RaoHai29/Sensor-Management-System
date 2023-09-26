@@ -36,8 +36,8 @@ function Speedometer() {
             await axios.delete(ds18b20); // Send a DELETE request to the server
 
             // Reset the data state to an empty array
+            setValue(0.0)
             setData([]);
-            setValue(0)
 
             // Other logic...
         } catch (error) {
@@ -68,7 +68,7 @@ function Speedometer() {
         let intervalId;
         if (show) {
             fetchData(); // Fetch data initially
-            intervalId = setInterval(fetchData, 1500); // Fetch data every 5 seconds
+            intervalId = setInterval(fetchData, 15); // Fetch data every 5 seconds
         } else {
             clearInterval(intervalId); // Clear the interval if fetching is paused
         }// Adjust the interval as needed (5000 milliseconds = 5 seconds)
@@ -130,7 +130,7 @@ function Speedometer() {
 
             <div className="speedometer">
                 <div className="center-point">
-                    <span className="value">{(value).toFixed(1)}</span>
+                    <span className="value">{(parseFloat(value)).toFixed(1)}</span>
                     <span className="unit" >&deg;<span style={{fontSize: "18px"}}>C</span></span>
                 </div>
                 <div className="speedometer-center-hide"></div>
