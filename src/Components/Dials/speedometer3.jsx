@@ -55,7 +55,14 @@ function Speedometer() {
             const data = response.data;
             const speed = data.map(item => item.distance);
             setSpeed(speed);
-            setValue(speed[speed.length - 1]);
+            // if (speed.length) 
+            // {
+            //     setValue(speed[speed.length - 1]);
+            // }
+            // else {
+            //     setValue(0);
+            // }
+            setValue(0);
             // Rotate.current.style.transform = `rotate(${value - 90}deg)`;
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -128,7 +135,7 @@ function Speedometer() {
 
             <div className="speedometer">
                 <div className="center-point">
-                    <span className="value">{Math.floor(value)}</span>
+                    <span className="value">{speed.length ? Math.floor(value) : ""}</span>
                     <span className="unit" style={{fontSize: "15px"}}>cm</span>
                 </div>
                 <div className="speedometer-center-hide"></div>
