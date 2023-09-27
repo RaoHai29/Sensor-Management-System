@@ -37,7 +37,7 @@ function Speedometer() {
             await axios.delete(fsr); // Send a DELETE request to the server
             // Reset the data state to an empty array
             setData([]);
-            setValue(0);
+            setValue(0.0)
         } catch (error) {
             console.error('Error deleting data:', error);
         }
@@ -55,7 +55,13 @@ function Speedometer() {
             const data = response.data;
             const speed = data.map(item => item.force);
             setSpeed(speed);
-            setValue(speed[speed.length - 1]);
+            if (speed.length) 
+            {
+                setValue(speed[speed.length - 1]);
+            }
+            else {
+                setValue(0);
+            }
             // Rotate.current.style.transform = `rotate(${value - 90}deg)`;
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -83,7 +89,7 @@ function Speedometer() {
         }
     }
 
-    const arrowRotation = `rotate(${((value) * 360/max) + 90}deg)`;
+    const arrowRotation = `rotate(${((value) * 360 / max) + 90}deg)`;
     // const arrowRotation = `rotate(${((61) * 360/max) + 90}deg)`;
 
     return (
@@ -128,8 +134,8 @@ function Speedometer() {
 
             <div className="speedometer">
                 <div className="center-point">
-                    <span className="value">{value}</span>
-                    <span className="unit" style={{fontSize: "15px"}}>N</span>
+                    <span className="value">{(parseFloat(value)).toFixed(1)}</span>
+                    <span className="unit" style={{ fontSize: "15px" }}>N</span>
                 </div>
                 <div className="speedometer-center-hide"></div>
                 <div className="arrow-container">
@@ -145,7 +151,7 @@ function Speedometer() {
                 </div>
                 <div className="speedometer-scale speedometer-scale-2">
                     <div className="text">
-                        <p className="mark" style={{left: "-1px"}}>{Math.floor(gap)}</p>
+                        <p className="mark" style={{ left: "-1px" }}>{Math.floor(gap)}</p>
                         <span className="mark-end">{Math.floor((gap * 9))}</span>
                     </div>
                 </div>
