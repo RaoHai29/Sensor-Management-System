@@ -3,6 +3,8 @@ import { Stack, Button, Typography } from '@mui/material';
 import './speedometer.css'; // Import your CSS file
 import axios from 'axios';
 import { MinorCrashOutlined } from '@mui/icons-material';
+import ip from '../../ipaddress';
+
 
 function Speedometer() {
 
@@ -47,7 +49,7 @@ function Speedometer() {
         setShow(false);
     };
 
-    const fsr = 'http://localhost:5000/fsr';
+    const fsr = `http://${ip()}/fsr`;
 
     const fetchData = async () => {
         try {
@@ -77,7 +79,7 @@ function Speedometer() {
             clearInterval(intervalId); // Clear the interval if fetching is paused
         }// Adjust the interval as needed (5000 milliseconds = 5 seconds)
         return () => clearInterval(intervalId);
-    }, [show]);
+    }, [show, fsr]);
 
     const handleChange = () => {
         console.log("maxRef.current:", maxRef.current.value);

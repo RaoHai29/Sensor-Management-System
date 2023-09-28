@@ -3,6 +3,8 @@ import axios from 'axios';
 import CanvasJSReact from '@canvasjs/react-charts';
 import { Stack, Button, Typography } from '@mui/material';
 import './linechart.css';
+import ip from '../../ipaddress';
+
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -11,7 +13,7 @@ function LineChart2() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [show, setShow] = useState(false);
   const [zValues, setZValues] = useState([]);
-  const ds18b20 = 'http://localhost:5000/ds18b20';
+  const ds18b20 = `http://${ip()}/ds18b20`;
   const [uniqueZValues, setUniqueZValues] = useState(new Set());
 
   const handleStartClick = () => {
@@ -85,7 +87,7 @@ function LineChart2() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [show]);
+  }, [show, ds18b20]);
 
   const options = {
     theme: 'light2',

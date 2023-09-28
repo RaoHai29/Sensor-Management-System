@@ -3,6 +3,8 @@ import { Stack, Button, Typography } from '@mui/material';
 import './speedometer.css'; // Import your CSS file
 import axios from 'axios';
 import { MinorCrashOutlined } from '@mui/icons-material';
+import ip from '../../ipaddress';
+
 
 function Speedometer() {
 
@@ -47,7 +49,7 @@ function Speedometer() {
         setShow(false);
     };
 
-    const hcsr04 = 'http://localhost:5000/hcsr04';
+    const hcsr04 = `http://${ip()}/hcsr04`;
 
     const fetchData = async () => {
         try {

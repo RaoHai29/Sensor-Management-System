@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Stack, Button, Typography } from '@mui/material';
 import './speedometer.css'; // Import your CSS file
 import axios from 'axios';
+import ip from '../../ipaddress';
+
 
 function Speedometer() {
 
@@ -49,7 +51,7 @@ function Speedometer() {
         setShow(false);
     };
 
-    const ds18b20 = 'http://localhost:5000/ds18b20';
+    const ds18b20 = `http://${ip()}/ds18b20`;
 
     const fetchData = async () => {
         try {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import CanvasJSReact from '@canvasjs/react-charts';
 import { Stack, Button, Typography } from '@mui/material';
 import './linechart.css';
+import ip from '../../ipaddress';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -10,7 +11,7 @@ function LineChart3() {
   const [data, setData] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [show, setShow] = useState(false);
-  const fsr = 'http://localhost:5000/fsr';
+  const fsr = `http://${ip()}/fsr`;
   const [uniqueZValues, setUniqueZValues] = useState(new Set());
 
   const handleStartClick = () => {
@@ -83,7 +84,7 @@ function LineChart3() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [show]);
+  }, [show, fsr]);
 
   const options = {
     theme: 'light2',
